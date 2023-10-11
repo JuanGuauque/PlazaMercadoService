@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  username: postgres
+  password: melius
+  pool: 5
+
+development:
+  <<: *default
+  database: the_restaurant_development
+
+production:
+  <<: *default
+  database: the_restaurant_development
+
+test:
+  <<: *default
+  database: the_restaurant_test
