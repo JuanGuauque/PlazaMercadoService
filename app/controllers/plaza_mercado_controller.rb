@@ -5,8 +5,9 @@ class PlazaMercadoController < ApplicationController
 
   def comprar
     ingrediente = params[:ingrediente]
-    cantidad_comprada = plaza_mercado(ingrediente)
-    @ingredientes = JSON.parse(Net::HTTP.get(URI("http://localhost:3001/ingrediente")))
+    cantidad_comprada = plaza_mercado(ingrediente.downcase)
+
+    @ingredientes = HistorialCompra.ingredientes
     ingrediente_id = @ingredientes[ingrediente.capitalize]['id']
     if cantidad_comprada == 0 
       render json: { mensaje: 'Vuelva otro día.' }
@@ -33,7 +34,7 @@ class PlazaMercadoController < ApplicationController
   end
 
   def actualizar_disponibilidad_ingredientes(ingrediente_id, cantidad_comprada)
-    uri = URI.parse("http://localhost:3001/ingrediente/#{ingrediente_id}")
+    uri = URI.parse("http://bodegaservice:3000/ingrediente/#{ingrediente_id}")
 
     # Utilizar el objeto URI para configurar Net::HTTP
     http = Net::HTTP.new(uri.host, uri.port)
